@@ -19,7 +19,7 @@ public class IntegrationTestDemo
     }
 
     [Test]
-    public async Task TestWithJwt()
+    public async Task TestWithAuth()
     {
         var api = new TestApi();
         var client = api.CreateClient();
