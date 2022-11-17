@@ -1,3 +1,4 @@
+using FinalProjDemo;
 using FinalProjDemo.Data;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.EntityFrameworkCore;
@@ -6,11 +7,15 @@ using Microsoft.Identity.Web.UI;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddHostedService<MigrationApplier>();
+
 // Add services to the container.
 builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureAd"));
 builder.Services.AddControllersWithViews()
     .AddMicrosoftIdentityUI();
+
+builder.Configuration["secretApiKey"];
 var connStr = builder.Configuration.GetConnectionString("pg");
 builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connStr));
 
