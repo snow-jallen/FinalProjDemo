@@ -15,7 +15,6 @@ builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
 builder.Services.AddControllersWithViews()
     .AddMicrosoftIdentityUI();
 
-builder.Configuration["secretApiKey"];
 var connStr = builder.Configuration.GetConnectionString("pg");
 builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connStr));
 
