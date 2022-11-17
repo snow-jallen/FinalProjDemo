@@ -27,6 +27,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapGet("/health", () => "it's working!");
 
 app.Run();
 
