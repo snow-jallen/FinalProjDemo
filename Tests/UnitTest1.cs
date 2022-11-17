@@ -10,7 +10,7 @@ namespace Tests
         [Test]
         public void Test1()
         {
-            Assert.Fail("Will this stop the build?");
+            Assert.Pass("Yea!");
         }
     }
 }
