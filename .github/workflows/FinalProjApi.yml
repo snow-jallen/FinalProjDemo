@@ -1,4 +1,4 @@
-name: Build and deploy .NET Core application to Web App FinalProjDemo with API Management Service MyApiMgmntService-MyApi
+name: CICD for API
 on:
   push:
     branches:
