@@ -56,5 +56,5 @@ jobs:
         with:
           app-name: 'finalprojapi'
           slot-name: 'production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_E87C72CAA85C4C8592F5B5D61E19986E }}
+          publish-profile: ${{ secrets.API_PUBLISH_PROFILE }}
           package: .
