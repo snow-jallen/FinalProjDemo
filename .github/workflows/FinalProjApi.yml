@@ -23,13 +23,13 @@ jobs:
           include-prerelease: true
 
       - name: Build with dotnet
-        run: dotnet build --project MyApi --configuration Release
+        run: dotnet build --configuration Release
 
       - name: Run Tests
         run: dotnet test
 
       - name: dotnet publish
-        run: dotnet publish --project MyApi -c Release -o ${{env.DOTNET_ROOT}}/myapp
+        run: dotnet publish MyApi -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
