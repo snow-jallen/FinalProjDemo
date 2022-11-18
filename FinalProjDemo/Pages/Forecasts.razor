@@ -1,7 +1,7 @@
 ﻿@page "/history"
 @using FinalProjDemo.Data;
 @using Microsoft.EntityFrameworkCore;
-@inject AppDbContext context;
+@inject IHttpClientFactory httpClientFactory;
 
 <h3>Forecasts</h3>
 
@@ -26,14 +26,14 @@
                 Summary = $"Forecast #{ForecastList.Count()}",
                 TemperatureC = ForecastList.Max(f => f.TemperatureC) + 1
             };
-        await context.WeatherForecasts.AddAsync(newForecast);
-        await context.SaveChangesAsync();
-        await RefreshAsync();
+        var httpClient = httpClientFactory.CreateClient("MyApi");
+        await httpClient.PostAsJsonAsync("/weatherforecast", newForecast);
     }
 
     private async Task RefreshAsync()
     {
-        ForecastList = await context.WeatherForecasts.ToListAsync();
+        var httpClient = httpClientFactory.CreateClient("MyApi");
+        ForecastList = await httpClient.GetFromJsonAsync<IEnumerable<WeatherForecast>>("/weatherforecast");
         if(ForecastList.Any() is false)
         {
             ForecastList = new List<WeatherForecast>(new[]{

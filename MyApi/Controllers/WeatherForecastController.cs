@@ -1,9 +1,9 @@
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MyApi.Data;
 
 namespace MyApi.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [ApiController]
     [Route("[controller]")]
     //[RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
@@ -15,22 +15,24 @@ namespace MyApi.Controllers
     };
 
         private readonly ILogger<WeatherForecastController> _logger;
+        private readonly IDataService dataService;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, IDataService dataService)
         {
             _logger = logger;
+            this.dataService = dataService;
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
-        public IEnumerable<WeatherForecast> Get()
+        public async Task<IEnumerable<WeatherForecast>> Get()
         {
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray();
+            return await dataService.GetForecastsAsync();
+        }
+
+        [HttpPost()]
+        public async Task Post(WeatherForecast weatherForecast)
+        {
+            await dataService.AddForecastAsync(weatherForecast);
         }
     }
 }

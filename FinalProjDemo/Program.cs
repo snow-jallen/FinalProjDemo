@@ -1,22 +1,21 @@
-using FinalProjDemo;
 using FinalProjDemo.Data;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddHostedService<MigrationApplier>();
 
 // Add services to the container.
 builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureAd"));
 builder.Services.AddControllersWithViews()
     .AddMicrosoftIdentityUI();
-
-var connStr = builder.Configuration.GetConnectionString("pg");
-builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connStr));
+builder.Services.AddHttpClient("MyApi", client =>
+{
+    client.BaseAddress = new Uri(builder.Configuration["MyApiBaseAddress"]);
+    //client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", );
+});
 
 builder.Services.AddAuthorization(options =>
 {

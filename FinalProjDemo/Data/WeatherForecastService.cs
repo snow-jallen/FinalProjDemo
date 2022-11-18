@@ -2,9 +2,9 @@ namespace FinalProjDemo.Data
 {
     public class WeatherForecastService
     {
-        public WeatherForecastService(HttpClient httpClient, IConfiguration config)
+        public WeatherForecastService(IHttpClientFactory httpClientFactory, IConfiguration config)
         {
-            this.httpClient = httpClient;
+            this.httpClient = httpClientFactory.CreateClient("MyApi");
             this.config = config;
         }
 

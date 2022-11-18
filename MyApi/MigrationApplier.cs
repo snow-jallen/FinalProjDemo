@@ -1,5 +1,5 @@
-﻿using FinalProjDemo.Data;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using MyApi.Data;
 
 namespace FinalProjDemo;
 
