@@ -39,7 +39,7 @@ public class IntegrationTestDemo
     }
 
     [Test]
-    public async Task StartWithNoneAddOneGetOneBackAgain()
+    public async Task StartWithNoneAddTwoGetTwoBack()
     {
         var api = new TestApi();
         var client = api.CreateClient();
