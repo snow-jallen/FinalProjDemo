@@ -24,7 +24,7 @@ public class TestApi : WebApplicationFactory<Program>
 
     protected virtual void ConfigureServices(IServiceCollection services)
     {
-        services.AddScoped<IDataService, TestDataService>();
+        services.AddSingleton<IDataService, TestDataService>();
         services.AddAuthentication("Test")
             .AddScheme<AuthenticationSchemeOptions, TestAuthHandler>("Test", options => { });
     }
@@ -32,13 +32,15 @@ public class TestApi : WebApplicationFactory<Program>
 
 public class TestDataService : IDataService
 {
+    private List<WeatherForecast> weatherForecasts = new();
     public Task AddForecastAsync(WeatherForecast forecast)
     {
+        weatherForecasts.Add(forecast);
         return Task.CompletedTask;
     }
 
     public Task<IEnumerable<WeatherForecast>> GetForecastsAsync()
     {
-        return Task.FromResult<IEnumerable<WeatherForecast>>(new WeatherForecast[] { });
+        return Task.FromResult<IEnumerable<WeatherForecast>>(weatherForecasts);
     }
 }
