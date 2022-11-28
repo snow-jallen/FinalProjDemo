@@ -29,6 +29,15 @@
                 TemperatureC = ForecastList.Max(f => f.TemperatureC) + 1
             };
         var token = await contextAccessor.HttpContext.GetTokenAsync("access_token");
+
+        //try getting token this way
+        //https://learn.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-client-creds-grant-flow
+        var graphClient = new HttpClient();
+        var clientId = "";
+        var tenant = "";
+        var clientSecret = "";
+        var tokenResponse = graphClient.PostAsync("https://login.microsoftonline.com/{tenant}/oauth2/v2.0/token", $"client_id={clientId}&scope=https://graph.microsoft.com/.default&client_secret={clientSecret}&grant_type=client_credentials");
+
         var httpClient = httpClientFactory.CreateClient("MyApi");
         try
         {

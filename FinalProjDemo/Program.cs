@@ -17,6 +17,7 @@ builder.Services.AddHttpClient("MyApi", client =>
 {
     client.BaseAddress = new Uri(builder.Configuration["MyApiBaseAddress"]);
 }).AddHttpMessageHandler<TokenHandler>();
+
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<TokenHandler>();
 builder.Services.AddAuthorization(options =>
