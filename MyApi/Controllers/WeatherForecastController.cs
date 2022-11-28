@@ -1,9 +1,9 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyApi.Data;
 
 namespace MyApi.Controllers
 {
-    //[Authorize]
     [ApiController]
     [Route("[controller]")]
     //[RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
@@ -29,6 +29,7 @@ namespace MyApi.Controllers
             return await dataService.GetForecastsAsync();
         }
 
+        [Authorize]
         [HttpPost()]
         public async Task Post(WeatherForecast weatherForecast)
         {
