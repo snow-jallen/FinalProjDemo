@@ -1,7 +1,9 @@
 ﻿@page "/history"
 @using FinalProjDemo.Data;
+@using Microsoft.AspNetCore.Authentication
 @using Microsoft.EntityFrameworkCore;
 @inject IHttpClientFactory httpClientFactory;
+@inject IHttpContextAccessor contextAccessor;
 
 <h3>Forecasts</h3>
 
@@ -26,8 +28,17 @@
                 Summary = $"Forecast #{ForecastList.Count()}",
                 TemperatureC = ForecastList.Max(f => f.TemperatureC) + 1
             };
+        var token = await contextAccessor.HttpContext.GetTokenAsync("access_token");
         var httpClient = httpClientFactory.CreateClient("MyApi");
-        await httpClient.PostAsJsonAsync("/weatherforecast", newForecast);
+        try
+        {
+            var response = await httpClient.PostAsJsonAsync("/weatherforecast", newForecast);
+            response.EnsureSuccessStatusCode();
+        }
+        catch(Exception ex)
+        {
+            throw;
+        }
     }
 
     private async Task RefreshAsync()

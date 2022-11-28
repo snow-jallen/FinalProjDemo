@@ -1,7 +1,9 @@
 using FinalProjDemo.Data;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
+using System.Net.Http.Headers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,9 +16,9 @@ builder.Services.AddControllersWithViews()
 builder.Services.AddHttpClient("MyApi", client =>
 {
     client.BaseAddress = new Uri(builder.Configuration["MyApiBaseAddress"]);
-    //client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", );
-});
-
+}).AddHttpMessageHandler<TokenHandler>();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<TokenHandler>();
 builder.Services.AddAuthorization(options =>
 {
     // By default, all incoming requests will be authorized according to the default policy
@@ -52,3 +54,19 @@ app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
 
 app.Run();
+
+public class TokenHandler : DelegatingHandler
+{
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    public TokenHandler(IHttpContextAccessor httpContextAccessor)
+    {
+        _httpContextAccessor = httpContextAccessor;
+    }
+    protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+    {
+        var accessToken = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
+        request.Headers.Authorization =
+            new AuthenticationHeaderValue("Bearer", accessToken);
+        return await base.SendAsync(request, cancellationToken);
+    }
+}
