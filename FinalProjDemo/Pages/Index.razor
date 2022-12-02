@@ -7,3 +7,30 @@
 Welcome to your new app.
 
 <SurveyPrompt Title="How is Blazor working for you?" />
+
+<input @bind=message />
+<button @onclick=sendEmail>Send Email</button>
+
+@code {
+        string message;
+
+        async Task sendEmail()
+        {
+            var smtp = new System.Net.Mail.SmtpClient("smtp.sendgrid.net");
+            smtp.Port = 465;
+            smtp.EnableSsl = true;
+            smtp.Credentials = new System.Net.NetworkCredential(
+                "apikey",
+                "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"
+            );
+        try
+        {
+            await smtp.SendMailAsync("jallen@snow.edu", "jallen@snow.edu", "Test Email", message);
+            message = "Message sent ok.";
+        }
+        catch(Exception ex)
+        {
+            message = ex.ToString();
+        }
+    }
+}
