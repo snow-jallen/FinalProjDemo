@@ -3,7 +3,10 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
+using Microsoft.IdentityModel.Logging;
 using System.Net.Http.Headers;
+
+IdentityModelEventSource.ShowPII = true;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,12 +16,23 @@ builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureAd"));
 builder.Services.AddControllersWithViews()
     .AddMicrosoftIdentityUI();
+builder.Services.Configure<OpenIdConnectOptions>(OpenIdConnectDefaults.AuthenticationScheme, options =>
+{
+    options.ResponseType = "code";
+    options.SaveTokens = true;
+    options.Scope.Add("https://snowsejonathan.onmicrosoft.com/e806e615-d476-4b68-8366-52e05b2d5a8d/access_as_user");
+    //options.Scope.Add("https://snowsejonathan.onmicrosoft.com/e806e615-d476-4b68-8366-52e05b2d5a8d/access_as_user");
+    options.Scope.Add("offline_access");
+});
+
 builder.Services.AddHttpClient("MyApi", client =>
 {
     client.BaseAddress = new Uri(builder.Configuration["MyApiBaseAddress"]);
 }).AddHttpMessageHandler<TokenHandler>();
+
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<TokenHandler>();
+builder.Services.AddScoped<TokenProvider>();
 builder.Services.AddAuthorization(options =>
 {
     // By default, all incoming requests will be authorized according to the default policy
@@ -54,6 +68,18 @@ app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
 
 app.Run();
+
+public class TokenProvider
+{
+    public string AccessToken { get; set; }
+    public string RefreshToken { get; set; }
+}
+
+public class InitialApplicationState
+{
+    public string AccessToken { get; set; }
+    public string RefreshToken { get; set; }
+}
 
 public class TokenHandler : DelegatingHandler
 {

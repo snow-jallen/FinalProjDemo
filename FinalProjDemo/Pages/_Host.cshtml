@@ -1,8 +1,15 @@
 ﻿@page "/"
 @namespace FinalProjDemo.Pages
+@using Microsoft.AspNetCore.Authentication;
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
     Layout = "_Layout";
+
+
+    var tokens = new InitialApplicationState();
+
+    tokens.AccessToken = await HttpContext.GetTokenAsync("access_token");
+    tokens.RefreshToken = await HttpContext.GetTokenAsync("refresh_token");
 }
 
-<component type="typeof(App)" render-mode="ServerPrerendered" />
+<component type="typeof(App)" render-mode="ServerPrerendered" param-InitialState="tokens" />

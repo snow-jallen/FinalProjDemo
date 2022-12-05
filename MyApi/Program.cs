@@ -2,6 +2,7 @@ using FinalProjDemo;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
+using Microsoft.IdentityModel.Logging;
 using Microsoft.OpenApi.Models;
 using MyApi.Data;
 
@@ -9,8 +10,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 // Add services to the container.
+IdentityModelEventSource.ShowPII = true;
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));
+IdentityModelEventSource.ShowPII = true;
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -43,6 +46,7 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
+IdentityModelEventSource.ShowPII = true;
 
 var connStr = builder.Configuration.GetConnectionString("pg");
 if (connStr != null)
