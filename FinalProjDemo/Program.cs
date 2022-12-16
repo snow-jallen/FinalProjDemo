@@ -21,7 +21,6 @@ builder.Services.Configure<OpenIdConnectOptions>(OpenIdConnectDefaults.Authentic
     options.ResponseType = "code";
     options.SaveTokens = true;
     options.Scope.Add("https://snowsejonathan.onmicrosoft.com/e806e615-d476-4b68-8366-52e05b2d5a8d/access_as_user");
-    //options.Scope.Add("https://snowsejonathan.onmicrosoft.com/e806e615-d476-4b68-8366-52e05b2d5a8d/access_as_user");
     options.Scope.Add("offline_access");
 });
 
