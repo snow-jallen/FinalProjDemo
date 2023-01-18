@@ -24,4 +24,8 @@
     <PackageReference Include="sendgrid" Version="9.28.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Shared\Shared.csproj" />
+  </ItemGroup>
+
 </Project>

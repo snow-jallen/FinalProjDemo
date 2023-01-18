@@ -1,4 +1,4 @@
-using FinalProjDemo.Data;
+using Shared.Data;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Identity.Web;
