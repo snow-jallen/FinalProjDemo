@@ -29,7 +29,7 @@ namespace MyApi.Controllers
             return await dataService.GetForecastsAsync();
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpPost()]
         public async Task Post(WeatherForecast weatherForecast)
         {
