@@ -1,6 +1,6 @@
 namespace Shared.Data;
 
-public class WeatherForecastService
+public class WeatherForecastService : IWeatherForecastService
 {
     public WeatherForecastService(IHttpClientFactory httpClientFactory, IConfiguration config)
     {

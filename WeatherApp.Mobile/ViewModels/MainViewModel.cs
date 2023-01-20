@@ -12,9 +12,9 @@ namespace WeatherApp.Mobile.ViewModels
     public partial class MainViewModel : ObservableObject
     {
 
-        private readonly WeatherForecastService service;
+        private readonly IWeatherForecastService service;
 
-        public MainViewModel(WeatherForecastService service)
+        public MainViewModel(IWeatherForecastService service)
         {
             this.service = service;
         }
