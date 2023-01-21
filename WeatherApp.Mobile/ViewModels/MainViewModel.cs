@@ -22,6 +22,21 @@ namespace WeatherApp.Mobile.ViewModels
         [ObservableProperty]
         private double temperature = 200.0;
 
+        [ObservableProperty]
+        private DateTime selectedDate;
+
+        partial void OnSelectedDateChanged(DateTime value)
+        {
+            getTemperatureAsync(value);
+            //:)
+        }
+
+        private async Task getTemperatureAsync(DateTime value)
+        {
+            var forecast = await service.GetForecastAsync(value);
+            Temperature = forecast.Single(f => f.Date == value).TemperatureF;
+        }
+
         [RelayCommand]
         private async Task Loaded()
         {

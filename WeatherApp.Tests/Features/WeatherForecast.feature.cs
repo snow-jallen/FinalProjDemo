@@ -21,12 +21,14 @@ namespace WeatherApp.Tests.Features
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
     [NUnit.Framework.DescriptionAttribute("WeatherForecast")]
+    [NUnit.Framework.CategoryAttribute("mytag")]
     public partial class WeatherForecastFeature
     {
         
         private TechTalk.SpecFlow.ITestRunner testRunner;
         
-        private static string[] featureTags = ((string[])(null));
+        private static string[] featureTags = new string[] {
+                "mytag"};
         
 #line 1 "WeatherForecast.feature"
 #line hidden
@@ -75,11 +77,9 @@ namespace WeatherApp.Tests.Features
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Temperature onload")]
-        [NUnit.Framework.CategoryAttribute("mytag")]
         public void TemperatureOnload()
         {
-            string[] tagsOfScenario = new string[] {
-                    "mytag"};
+            string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Temperature onload", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 5
@@ -110,24 +110,17 @@ this.ScenarioInitialize(scenarioInfo);
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Multiple Temperatures")]
-        [NUnit.Framework.CategoryAttribute("mytag")]
         [NUnit.Framework.TestCaseAttribute("75", "166", null)]
         [NUnit.Framework.TestCaseAttribute("-40", "-39", null)]
         [NUnit.Framework.TestCaseAttribute("0", "32", null)]
         public void MultipleTemperatures(string tempC, string tempF, string[] exampleTags)
         {
-            string[] @__tags = new string[] {
-                    "mytag"};
-            if ((exampleTags != null))
-            {
-                @__tags = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Concat(@__tags, exampleTags));
-            }
-            string[] tagsOfScenario = @__tags;
+            string[] tagsOfScenario = exampleTags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             argumentsOfScenario.Add("tempC", tempC);
             argumentsOfScenario.Add("tempF", tempF);
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Multiple Temperatures", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 12
+#line 11
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
@@ -137,16 +130,66 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 13
+#line 12
  testRunner.Given(string.Format("the forecast service returns a temp. of {0} C", tempC), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 14
+#line 13
  testRunner.And("a new view model", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 15
+#line 14
  testRunner.When("the page is loaded", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 16
+#line 15
+ testRunner.Then(string.Format("the temperature is {0} F", tempF), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Specific Date")]
+        [NUnit.Framework.TestCaseAttribute("2023-01-20", "32", null)]
+        [NUnit.Framework.TestCaseAttribute("2023-01-21", "166", null)]
+        [NUnit.Framework.TestCaseAttribute("2023-01-22", "-39", null)]
+        public void SpecificDate(string date, string tempF, string[] exampleTags)
+        {
+            string[] tagsOfScenario = exampleTags;
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            argumentsOfScenario.Add("Date", date);
+            argumentsOfScenario.Add("tempF", tempF);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Specific Date", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 24
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+                TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
+                            "Date",
+                            "TemperatureC"});
+                table1.AddRow(new string[] {
+                            "2023-01-20",
+                            "0"});
+                table1.AddRow(new string[] {
+                            "2023-01-21",
+                            "75"});
+                table1.AddRow(new string[] {
+                            "2023-01-22",
+                            "-40"});
+#line 25
+ testRunner.Given("a forecast service returns the following forecasts", ((string)(null)), table1, "Given ");
+#line hidden
+#line 30
+ testRunner.And("a new view model", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 31
+ testRunner.When(string.Format("user inputs {0}", date), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 32
  testRunner.Then(string.Format("the temperature is {0} F", tempF), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }

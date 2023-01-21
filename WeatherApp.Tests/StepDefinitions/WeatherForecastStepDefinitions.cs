@@ -3,6 +3,7 @@ using Shared.Data;
 using System;
 using TechTalk.SpecFlow;
 using WeatherApp.Mobile.ViewModels;
+using TechTalk.SpecFlow.Assist;
 
 namespace WeatherApp.Tests.StepDefinitions
 {
@@ -51,5 +52,25 @@ namespace WeatherApp.Tests.StepDefinitions
             var vm = _context.Get<MainViewModel>();
             vm.Temperature.Should().Be(temp);
         }
+
+        [Given(@"a forecast service returns the following forecasts")]
+        public void GivenAForecastServiceReturnsTheFollowingForecasts(Table table)
+        {
+            var forecasts = table.CreateSet<WeatherForecast>();
+            var mock = new Mock<IWeatherForecastService>();
+            foreach (var forecast in forecasts)
+            {
+                mock.Setup(x => x.GetForecastAsync(forecast.Date)).ReturnsAsync(forecasts.ToArray());
+            }
+            _context.Set(mock.Object);
+        }
+
+        [When(@"user inputs (.*)")]
+        public void WhenUserInputs(DateTime date)
+        {
+            var vm = _context.Get<MainViewModel>();
+            vm.SelectedDate = date;
+        }
+
     }
 }

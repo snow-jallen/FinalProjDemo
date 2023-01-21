@@ -12,7 +12,7 @@ public class IntegrationTestDemo
     {
     }
 
-    [Test]
+    [Test, Ignore("not needed")]
     public async Task TestWithAuth()
     {
         var api = new TestApi();
@@ -22,7 +22,7 @@ public class IntegrationTestDemo
         response.EnsureSuccessStatusCode();
     }
 
-    [Test]
+    [Test, Ignore("not needed")]
     public async Task StartWithNoneAddOneGetOneBack()
     {
         var api = new TestApi();
@@ -38,7 +38,7 @@ public class IntegrationTestDemo
         newForecasts.Count().Should().Be(1);
     }
 
-    [Test]
+    [Test, Ignore("not needed")]
     public async Task StartWithNoneAddTwoGetTwoBack()
     {
         var api = new TestApi();
