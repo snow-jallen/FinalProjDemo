@@ -1,11 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Shared.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using WeatherApp.Mobile.Views;
 
 namespace WeatherApp.Mobile.ViewModels
 {
@@ -13,10 +9,12 @@ namespace WeatherApp.Mobile.ViewModels
     {
 
         private readonly IWeatherForecastService service;
+        private readonly INavigationService navService;
 
-        public MainViewModel(IWeatherForecastService service)
+        public MainViewModel(IWeatherForecastService service, INavigationService navService)
         {
             this.service = service;
+            this.navService = navService;
         }
 
         [ObservableProperty]
@@ -29,6 +27,12 @@ namespace WeatherApp.Mobile.ViewModels
         {
             getTemperatureAsync(value);
             //:)
+        }
+
+        [RelayCommand]
+        private async Task GoToEntryPage()
+        {
+            await navService.NavigateToAsync(nameof(EntryPage));
         }
 
         private async Task getTemperatureAsync(DateTime value)

@@ -19,6 +19,9 @@
                 FontSize="32"
                 HorizontalOptions="Center" />
 
+            <Button Text="Go To Entry"
+                    Command="{Binding GoToEntryPageCommand}" />
+
         </VerticalStackLayout>
     </ScrollView>
 
